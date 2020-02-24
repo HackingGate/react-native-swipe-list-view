@@ -45,6 +45,8 @@ class SwipeRow extends Component {
         this.state = {
             leftActionActivated: false,
             rightActionActivated: false,
+            leftActionEvaluating: false,
+            rightActionEvaluating: false,
             leftActionEvaluated: false,
             rightActionEvaluated: false,
             previewRepeatInterval: null,
@@ -185,6 +187,9 @@ class SwipeRow extends Component {
             this.state.leftActionActivated !== nextState.leftActionActivated ||
             this.state.rightActionActivated !==
                 nextState.rightActionActivated ||
+            this.state.leftActionEvaluating !== nextState.leftActionEvaluating ||
+            this.state.rightActionEvaluating !==
+            nextState.rightActionEvaluating ||
             this.state.leftActionEvaluated !== nextState.leftActionEvaluated ||
             this.state.rightActionEvaluated !==
                 nextState.rightActionEvaluated ||
@@ -468,6 +473,11 @@ class SwipeRow extends Component {
 
         let action;
         if (actionSide === 'right') {
+            this.props.onRightAction && this.props.onRightAction();
+            !this.state.rightActionEvaluating &&
+                this.setState({
+                    rightActionEvaluating: true,
+                });
             action = () => {
                 this.props.onRightAction && this.props.onRightAction();
                 !this.state.rightActionEvaluated &&
@@ -477,6 +487,11 @@ class SwipeRow extends Component {
             };
         }
         if (actionSide === 'left') {
+            this.props.onLeftAction && this.props.onLeftAction();
+            !this.state.leftActionEvaluating &&
+                this.setState({
+                    leftActionEvaluating: true,
+                });
             action = () => {
                 this.props.onLeftAction && this.props.onLeftAction();
                 !this.state.leftActionEvaluated &&
@@ -569,6 +584,8 @@ class SwipeRow extends Component {
                 ...this.props.children[1].props,
                 leftActionActivated: this.state.leftActionActivated,
                 rightActionActivated: this.state.rightActionActivated,
+                leftActionEvaluating: this.state.leftActionEvaluating,
+                rightActionEvaluating: this.state.rightActionEvaluating,
                 leftActionEvaluated: this.state.leftActionEvaluated,
                 rightActionEvaluated: this.state.rightActionEvaluated,
                 swipeAnimatedValue: this._translateX,
@@ -584,6 +601,8 @@ class SwipeRow extends Component {
                 onPress: this.combinedOnPress,
                 leftActionActivated: this.state.leftActionActivated,
                 rightActionActivated: this.state.rightActionActivated,
+                leftActionEvaluating: this.state.leftActionEvaluating,
+                rightActionEvaluating: this.state.rightActionEvaluating,
                 leftActionEvaluated: this.state.leftActionEvaluated,
                 rightActionEvaluated: this.state.rightActionEvaluated,
                 swipeAnimatedValue: this._translateX,
@@ -600,6 +619,8 @@ class SwipeRow extends Component {
                     ...this.props.children[1].props,
                     leftActionActivated: this.state.leftActionActivated,
                     rightActionActivated: this.state.rightActionActivated,
+                    leftActionEvaluating: this.state.leftActionEvaluating,
+                    rightActionEvaluating: this.state.rightActionEvaluating,
                     leftActionEvaluated: this.state.leftActionEvaluated,
                     rightActionEvaluated: this.state.rightActionEvaluated,
                     swipeAnimatedValue: this._translateX,
@@ -659,6 +680,8 @@ class SwipeRow extends Component {
                         ...this.props.children[0].props,
                         leftActionActivated: this.state.leftActionActivated,
                         rightActionActivated: this.state.rightActionActivated,
+                        leftActionEvaluating: this.state.leftActionEvaluating,
+                        rightActionEvaluating: this.state.rightActionEvaluating,
                         leftActionEvaluated: this.state.leftActionEvaluated,
                         rightActionEvaluated: this.state.rightActionEvaluated,
                         swipeAnimatedValue: this._translateX,
